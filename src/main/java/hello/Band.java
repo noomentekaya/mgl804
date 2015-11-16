@@ -18,7 +18,7 @@ public class Band {
     private List<Artists> artists;
     
     
-    private List<TourDates> dateAndPlace ;
+    private List<TourDates> TourDates ;
 
     public Band() {}
 
@@ -61,11 +61,11 @@ public class Band {
 	}
 
 	public List<TourDates> getDateAndPlace() {
-		return dateAndPlace;
+		return TourDates;
 	}
 
 	public void setDateAndPlace(List<TourDates> dateAndPlace) {
-		this.dateAndPlace = dateAndPlace;
+		this.TourDates = dateAndPlace;
 	}
 
 	@Override
