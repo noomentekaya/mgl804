@@ -10,7 +10,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication
-
 public class Application implements CommandLineRunner {
 
 	@Autowired
@@ -19,45 +18,6 @@ public class Application implements CommandLineRunner {
 	private AlbumRepository albumprepo;
 	@Autowired
 	private TrackRepository trackrepo ;
-	public ProgrssiveRockRepository getRepository() {
-		return repository;
-	}
-
-	public void setRepository(ProgrssiveRockRepository repository) {
-		this.repository = repository;
-	}
-
-	public AlbumRepository getAlbumprepo() {
-		return albumprepo;
-	}
-
-	public void setAlbumprepo(AlbumRepository albumprepo) {
-		this.albumprepo = albumprepo;
-	}
-
-	public TrackRepository getTrackrepo() {
-		return trackrepo;
-	}
-
-	public void setTrackrepo(TrackRepository trackrepo) {
-		this.trackrepo = trackrepo;
-	}
-
-	public ArtistRepo getArtistRepo() {
-		return artistRepo;
-	}
-
-	public void setArtistRepo(ArtistRepo artistRepo) {
-		this.artistRepo = artistRepo;
-	}
-
-	public TourDateRepository getTourRepo() {
-		return tourRepo;
-	}
-
-	public void setTourRepo(TourDateRepository tourRepo) {
-		this.tourRepo = tourRepo;
-	}
 	@Autowired
 	private ArtistRepo artistRepo ;
 	@Autowired
@@ -136,9 +96,13 @@ public class Application implements CommandLineRunner {
 	        		trackrepo.save(t);
 	        		System.out.println("Band "+bandName+" Saved !");
 	            case "b":
+
+	            	System.out.println("what band do you like to edit or add information to ?");
 	            	String bandNameSearch = scanner.nextLine();
+	            	Band band = new Band();
 	            	band = repository.findByBandName(bandNameSearch);
 	            	System.out.println("would you like to add another a)artist b)album c)tour date q)return?");
+
 	            	String bandChoice =scanner.nextLine();
 	            	switch(bandChoice){
 	            	case "a" :
@@ -161,7 +125,7 @@ public class Application implements CommandLineRunner {
 	            		System.out.print("\nEnter album name: ");
 		        		
 		        		String newalbumName = scanner.nextLine();
-	            		System.out.print("\nEnter album name: ");
+	            		System.out.print("\nEnter Issue Date: ");
 
 		        		String newissueDate = scanner.nextLine();
 		        		java.util.List<Album> listalbums = new ArrayList<>();
@@ -205,7 +169,8 @@ public class Application implements CommandLineRunner {
 	            	}
 	            case "c":
 	            	System.out.println("enter band name to list all albums ");
-	            	for (Album aa : albumprepo.findByBandName(scanner.nextLine())){
+	            String s = scanner.nextLine();
+	            	for (Album aa : albumprepo.findByBandName(s)){
 	            		System.out.println(aa.getAlbumName());
 	            		System.out.println(aa.getIssued());
 	            		System.out.println(aa.getTracks());
@@ -225,7 +190,9 @@ public class Application implements CommandLineRunner {
 	            	break;
 	            case "e":
 	            	System.out.println("enter album name to read lyrics ");
-	            	for (Track tt : trackrepo.findByAlbumName(scanner.nextLine())){
+	            	String search1  = scanner.nextLine();
+
+	            	for (Track tt : trackrepo.findByAlbumName(search1)){
 	            		System.out.println(tt.getAlbumName());
 	            		System.out.println(tt.getLyrics());
 	            		
@@ -235,7 +202,8 @@ public class Application implements CommandLineRunner {
 	            	break;
 	            case "f":
 	            	System.out.println("enter band name to check dates ");
-	            	for (TourDates tt : tourRepo.findByBandName(scanner.nextLine())){
+	            	String search  = scanner.nextLine();
+	            	for (TourDates tt : tourRepo.findByBandName(search)){
 	            		System.out.println(tt.getDate());
 	            		System.out.println(tt.getVenue());
 	            		System.out.println(tt.getCity());

@@ -1,4 +1,4 @@
-package unit.test.progrock.dummy;
+package hello;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -25,11 +26,16 @@ import hello.ProgrssiveRockRepository;
 import hello.Track;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@Configuration
+@SpringApplicationConfiguration(classes=Application.class)
 public class UnitTestProgRockDummy {
-	
+	@Autowired
 	private ProgrssiveRockRepository progrepo;
-@Autowired	private AlbumRepository albumrepo;
+	@Autowired	
+	private AlbumRepository albumrepo;
+	@Autowired	
+	private TrackRepository trackrepo;
+	@Autowired
+	private TourDateRepository tourRepo;
 	Band band;
 	Album al;
 	List<Album> albums;
@@ -51,17 +57,41 @@ public class UnitTestProgRockDummy {
 
 	@Test
 	public void testBandSearchShouldReturnNull() {
-		progrepo.findByBandName("");
+		Band b = new Band();
+		b =progrepo.findByBandName("");
+		assertEquals(null, b);
 	}
 
 	@Test
 	public void testBandShouldReturnBand() {
-		when(progrepo.findByBandName("Opeth")).thenReturn(band);
+		Band b = new Band();
+		b=progrepo.findByBandName("Opeth");
+		assertEquals("Opeth", b.getBandName());
+		
+
 	}
 
 	@Test
 	public void testBandShouldReturnAlbums() {
-		when(albumrepo.findByBandName("Opeth")).thenReturn(albums);
+		List<Album> albums = new ArrayList<>();
+		albums = albumrepo.findByBandName("Opeth");
+		assertEquals(true, albums.size()>0);
 	}
+	
+	@Test
+	public void testShouldReturnTrack() {
+		List<Track> tracks = new ArrayList<>();
+		tracks = trackrepo.findByAlbumName("Watershed");
+		assertEquals(true, tracks.size()>0);
+	}
+	
+	@Test
+	public void testShouldReturnTourDates() {
+		List<TourDates> tour = new ArrayList<>();
+		tour = tourRepo.findByBandName("Opeth");
+		assertEquals(true, tour.size()>0);
+	}
+	
+	
 
 }

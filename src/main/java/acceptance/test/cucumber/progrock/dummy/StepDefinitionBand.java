@@ -18,8 +18,9 @@ public class StepDefinitionBand {
 	 private Band band;
 	 private Album album ;
 	 private Artists artist ;
-	 Application app = new Application() ;
-	
+	 @Autowired
+	 ProgrssiveRockRepository pr ;
+	 
 	 
 	 @Given(".+Band with name '(.+)', that plays '(.+)'")
 	 public void initBand() throws Throwable {
@@ -31,11 +32,11 @@ public class StepDefinitionBand {
 	    }
 	 @Then("Band '(.+)' saved!")
 	 public void saveBand(){
-		 app.getRepository().save(band);
+		 pr.save(band);
 	 }
 	 
 	 
-	 @Given(".+Album with name '(.+)', that was issued in '(.+)'")
+	/* @Given(".+Album with name '(.+)', that was issued in '(.+)'")
 	 public void initAlbum() throws Throwable {
 		 
 	        album = new Album("Watershed", "2008");
@@ -94,6 +95,6 @@ public class StepDefinitionBand {
 	 @Then("^Band Opeth saved!$")
 	 public void band_Opeth_saved() throws Throwable {
 		 app.getRepository().save(band);
-	 }
+	 }*/
 	 
 }
