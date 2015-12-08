@@ -36,6 +36,8 @@ public class UnitTestProgRockDummy {
 	private TrackRepository trackrepo;
 	@Autowired
 	private TourDateRepository tourRepo;
+	@Autowired
+	private ArtistRepo artistRepo;
 	Band band;
 	Album al;
 	List<Album> albums;
@@ -72,24 +74,43 @@ public class UnitTestProgRockDummy {
 	}
 
 	@Test
-	public void testBandShouldReturnAlbums() {
-		List<Album> albums = new ArrayList<>();
-		albums = albumrepo.findByBandName("Opeth");
-		assertEquals(true, albums.size()>0);
+	public void testOpethShouldHaveAlbumCalledStillLife() {
+		
+		Album album = new Album();
+		album= albumrepo.findByAlbumName("Still life");
+		Band bb = new Band();
+		List<Album>albums = new ArrayList<>();
+		albums=albumrepo.findByBandName("Opeth");
+		assertTrue(albums.contains(album));
+		//probleme de hashcode ici l'assertion echoue parce que les hashcode sont differents mais le contenu est le meme, ca a ete regle
+		// en overridant la methode hashcode le test reussi maintenant
+		
 	}
 	
 	@Test
-	public void testShouldReturnTrack() {
+	public void testCheckIfMikaelisMemberOfOpeth() {
+		List<Artists> artists = new ArrayList<>();
+		artists = artistRepo.findByBandName("Opeth");
+		Artists artist = new Artists();
+		artist=artistRepo.findByLastName("Mikael");
+		assertTrue(artists.contains(artist));
+	}
+	@Test
+	public void testTrackForestOfOctoberShouldBeInOrchid() {
 		List<Track> tracks = new ArrayList<>();
-		tracks = trackrepo.findByAlbumName("Watershed");
-		assertEquals(true, tracks.size()>0);
+		tracks = trackrepo.findByAlbumName("orchid");
+		Track track = new Track();
+		track = trackrepo.findByTrackName("forest of october");
+		assertTrue(tracks.contains(track));
 	}
 	
 	@Test
-	public void testShouldReturnTourDates() {
-		List<TourDates> tour = new ArrayList<>();
-		tour = tourRepo.findByBandName("Opeth");
-		assertEquals(true, tour.size()>0);
+	public void testShouldCheckIfKingCrimsonPlayedInMontreal() {
+		TourDates tt = new TourDates();
+		tt	 = tourRepo.findByCity("Montreal");
+		Band bb = new Band();
+		bb = progrepo.findByBandName("King Crimson");
+		assertEquals(tt.getBandName(), bb.getBandName());
 	}
 	
 	

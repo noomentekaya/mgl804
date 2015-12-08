@@ -67,9 +67,7 @@ public class Application implements CommandLineRunner {
 	        		String trackName = scanner.nextLine();
 	        		Track t = new Track(trackName,"bla bla bla");
 	        		Band b = new Band(bandName, genre);
-	        		trackrepo.deleteAll();
-	        		repository.deleteAll();
-	        		albumprepo.deleteAll();
+	        		
 	        		Album al =new Album(albumName,issueDate);
 	        		
 	        		
@@ -101,9 +99,10 @@ public class Application implements CommandLineRunner {
 	            	String bandNameSearch = scanner.nextLine();
 	            	Band band = new Band();
 	            	band = repository.findByBandName(bandNameSearch);
-	            	System.out.println("would you like to add another a)artist b)album c)tour date q)return?");
+	            	System.out.println("would you like to add another a)artist b)album c)tour date d)Lyrics q)return?");
 
 	            	String bandChoice =scanner.nextLine();
+
 	            	switch(bandChoice){
 	            	case "a" :
 	            		Artists a = new Artists();
@@ -119,6 +118,7 @@ public class Application implements CommandLineRunner {
 		        		band.setArtists(artistsmodify);
 		        		artistRepo.save(a);
 		        		repository.save(band);
+		        		System.out.println("artist "+a.getFirstName()+" "+a.getLastName()+"for band "+a.getBandName()+" Saved !");
 		        		displayChoice();
 		        	break;
 	            	case "b":
@@ -139,6 +139,7 @@ public class Application implements CommandLineRunner {
 		        		band.setAlbums(listalbums);
 		        		repository.save(band);
 		        		albumprepo.save(aa);
+		        		System.out.println("Album "+aa.getAlbumName()+" by "+aa.getBandName()+" Saved !");
 		        		displayChoice();
 		        		break;
 	            	case "c":
@@ -159,8 +160,28 @@ public class Application implements CommandLineRunner {
 	            		tours.add(tour);
 	            		bandtour.setDateAndPlace(tours);
 	            		repository.save(bandtour);
+	            		System.out.println("tour date for band"+tour.getBandName()+"Saved!");
 	            		displayChoice();
 	            		break;
+	            	case "d":
+	            		System.out.print("\nEnter album name to add lyrics to: ");
+		        		
+		        		String albumsearch = scanner.nextLine();
+	            		Album alb = albumprepo.findByAlbumName(albumsearch);
+
+		        		
+		        		Track tt = new Track();
+		        		System.out.println("enter track Name");
+		        		String trackname = scanner.nextLine();
+		        		System.out.println("enter Lyrics for this track");
+		        		String tracklyrics = scanner.nextLine();
+		        		tt.setAlbumName(trackname);
+		        		tt.setLyrics(tracklyrics);
+		        		tt.setAlbumName(alb.getAlbumName());
+		        		trackrepo.save(tt);
+		        		System.out.println("Track"+tt.getTrackName()+"saved !");
+		        		displayChoice();
+		        		break;
 	            		
 		        		
 		        		
@@ -180,34 +201,24 @@ public class Application implements CommandLineRunner {
 	            	break;
 	            case "d":
 	             	System.out.println("enter album name to read lyrics ");
-	            	for (Track tt : trackrepo.findByAlbumName(scanner.nextLine())){
-	            		System.out.println(tt.getAlbumName());
-	            		System.out.println(tt.getLyrics());
+	             	String trackSearch = scanner.nextLine();
+	            	for (Track tt : trackrepo.findByAlbumName(trackSearch)){
+	            		System.out.println("track name :"+tt.getTrackName());
+	            		System.out.println("lyrics :"+tt.getLyrics());
 	            		
 
 	            	}
 	            	displayChoice();
 	            	break;
+	            
 	            case "e":
-	            	System.out.println("enter album name to read lyrics ");
-	            	String search1  = scanner.nextLine();
-
-	            	for (Track tt : trackrepo.findByAlbumName(search1)){
-	            		System.out.println(tt.getAlbumName());
-	            		System.out.println(tt.getLyrics());
-	            		
-
-	            	}
-	            	displayChoice();
-	            	break;
-	            case "f":
 	            	System.out.println("enter band name to check dates ");
 	            	String search  = scanner.nextLine();
 	            	for (TourDates tt : tourRepo.findByBandName(search)){
-	            		System.out.println(tt.getDate());
-	            		System.out.println(tt.getVenue());
-	            		System.out.println(tt.getCity());
-	            		System.out.println(tt.getCountry());
+	            		System.out.println("Date :"+tt.getDate());
+	            		System.out.println("Venue :"+tt.getVenue());
+	            		System.out.println("City :"+tt.getCity());
+	            		System.out.println("Country :"+tt.getCountry());
 
 	            	}
 	            	displayChoice();
@@ -268,27 +279,17 @@ public class Application implements CommandLineRunner {
 		albumprepo.save(al);
 		repository.save(b);
 		trackrepo.save(t);*/	
-		repository.save(new Band("Dark Tranquillity", "Melodic Death Metal"));
 		
 		System.out.println("bands found with findAll():");
 		System.out.println("-------------------------------");
 		for (Band band : repository.findAll()) {
 			System.out.println(band);
 		}
-		System.out.println();
+		
 
 		
-		System.out.println(repository.findByBandName("opeth"));
-		String search = scanner.nextLine();
-
-		System.out.println("albums by "+search+" are : "+albumprepo.findByBandName(search));
-		for (Artists artisy : repository.findByLastName("Stanne")) {
-			System.out.println(artisy);
-		}
-		System.out.println("search for tracks by : ");
-		for (Track track : trackrepo.findByBandName(search)){
-		System.out.println(track);
-	}
+		
+	
 		scanner.close();
 	}
 

@@ -10,6 +10,7 @@ import hello.Album;
 public interface AlbumRepository extends MongoRepository<Album, String> {
 
     public List<Album> findByBandName (String  bandName);
+    public Album findByAlbumName (String albumName);
     
    
 

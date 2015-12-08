@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component;
 public interface ArtistRepo extends MongoRepository<Artists, String> {
 
     public List<Artists> findByBandName(String bandName);
-    public List<Artists> findByLastName(String lastName);
+    public Artists findByLastName(String lastName);
 
 }

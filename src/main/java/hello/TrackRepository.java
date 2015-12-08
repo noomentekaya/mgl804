@@ -12,6 +12,7 @@ public interface TrackRepository extends MongoRepository<Track, String> {
 
     public List<Track> findByBandName(String bandName);
     public List<Track> findByAlbumName(String trackName);
+    public Track findByTrackName(String trackName);
 
    
 

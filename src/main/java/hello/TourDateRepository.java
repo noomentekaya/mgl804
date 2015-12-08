@@ -11,5 +11,6 @@ import hello.TourDates;
 public interface TourDateRepository extends MongoRepository<TourDates, String> {
 
     public List<TourDates> findByBandName(String bandName);
+    public TourDates findByCity(String city);
 
 }
