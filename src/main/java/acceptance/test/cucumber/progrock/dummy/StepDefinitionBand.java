@@ -46,122 +46,122 @@ public class StepDefinitionBand {
 	 TrackRepository trepo ;
 	 
 	 @Given(".+Album with name '(.+)' issued in'(.+)'")
-	 public void initalbumforTrack() throws Throwable {
+	 public void initalbumforTrack(String albumName, String issued) throws Throwable {
 		 	
 	        
-	        album.setAlbumName("orchid");
-		 	album.setIssued("1995");
+	        album.setAlbumName(albumName);
+		 	album.setIssued(issued);
 	        
 	    } 
 	 @When(".+User search for Track '(.+)'")
-	 public Track searchtrack(){
-		 return trepo.findByTrackName("forest of october");
+	 public Track searchtrack(String trackName){
+		 return trepo.findByTrackName(trackName);
 	 }
 	 @Then(".+track '(.+)' is found in album '(.+)'")
-	 public boolean trackFound(){
+	 public boolean trackFound(String trackName,String albumName){
 		 List<Track> tracks = new ArrayList<>();
-		 tracks = trepo.findByAlbumName(album.getAlbumName());
+		 tracks = trepo.findByAlbumName(albumName);
 		boolean loop = false ;
 		int i = 0 ;
 		while(!false){
-		assertThat(searchtrack().getTrackName(), equalTo(tracks.get(i).getTrackName()));
+		assertThat(searchtrack(trackName).getTrackName(), equalTo(tracks.get(i).getTrackName()));
 		i++;
 		}
 	 }
-	 @Given("^Album with name orchid issued in (\\d+)$")
+	 @Given("^Album with name '(.+)' issued in (\\d+)$")
 	 public void album_with_name_orchid_issued_in(int arg1) throws Throwable {
 		album = new Album("orchid","1995");
 	 }
 
-	 @When("^User search for Track forest of october$")
-	 public void user_search_for_Track_forest_of_october() throws Throwable {
-		  trepo.findByTrackName("forest of october");
+	 @When("^User search for Track '(.+)'$")
+	 public void user_search_for_Track_forest_of_october(String trackName) throws Throwable {
+		  trepo.findByTrackName(trackName);
 
 	 }
 
-	 @Then("^track forest of octber is found in album orchid$")
-	 public void track_forest_of_octber_is_found_in_album_orchid() throws Throwable {
+	 @Then("^track forest of octber is found in album '(.+)'$")
+	 public void track_forest_of_octber_is_found_in_album_orchid(String trackName) throws Throwable {
 		 List<Track> tracks = new ArrayList<>();
 		 tracks = trepo.findByAlbumName(album.getAlbumName());
 		boolean loop = false ;
 		int i = 0 ;
 		while(!false){
-		assertThat(searchtrack().getTrackName(), equalTo(tracks.get(i).getTrackName()));
+		assertThat(searchtrack(trackName).getTrackName(), equalTo(tracks.get(i).getTrackName()));
 		i++;
 		}
 	 }
 	 
 	 @Given(".+Band with name '(.+)', that plays '(.+)'")
-	 public void initBand() throws Throwable {
+	 public void initBand(String bandName,String genre) throws Throwable {
 		 	
 	        
-	        band.setBandName("Opeth");
-		 	band.setGenre("prog rock");
+	        band.setBandName(bandName);
+		 	band.setGenre(genre);
 	        
 	    }
 	 @When(".+User searchs for Artist with name '(.+)'")
-	 public Artists searchArtist(){
-		 return ar.findByLastName("Mikael");
+	 public Artists searchArtist(String name){
+		 return ar.findByLastName(name);
 	 }
 	 @Then("Artist should be found with name '(.+)' that plays for '(.+)'")
-	 public boolean artistFound(){
+	 public boolean artistFound(String name , String bandName){
 		 Band b = new Band();
-		b = pr.findByBandName(band.getBandName());
+		b = pr.findByBandName(bandName);
 		boolean loop = false ;
 		int i = 0 ;
 		while(!false){
-		assertThat(b.getArtists().get(i), equalTo(searchArtist()));
+		assertThat(b.getArtists().get(i), equalTo(searchArtist(name)));
 		i++;
 		}
 	 }
 	 
 	 
 	@Given(".+Album with name '(.+)', that was issued in '(.+)'")
-	 public void initAlbum() throws Throwable {
+	 public void initAlbum(String albumName, String issued) throws Throwable {
 		 
-	        album = new Album("Watershed", "2008");
+	        album = new Album(albumName, issued);
 	        
 	    }
 	@When(".+User search for Band '(.+)'")
-	public List<Album> searchAlbum (){
-		return al.findByBandName("Opeth");
+	public List<Album> searchAlbum (String bandName){
+		return al.findByBandName(bandName);
 	}
 	 @Then("Album '(.+)' Should be in '(.+)' album list")
-	 public boolean albumFound(){
+	 public boolean albumFound(String albumName,String bandName){
 		 	Album album = new Album();
-			album= al.findByAlbumName("Still life");
+			album= al.findByAlbumName(albumName);
 			boolean loop = false ;
 			int i = 0 ;
 			while(!false){
-			assertThat(album, equalTo(searchAlbum().get(i)));
+			assertThat(album, equalTo(searchAlbum(bandName).get(i)));
 			i++;
 			}
 			}
 	 
 	 @Given(".+ Tour date in City '(.+)'")
-	 public TourDates initTourDate() throws Throwable {
+	 public TourDates initTourDate(String city) throws Throwable {
 		 TourDates td = new TourDates();
-		 td.setCity("Montreal");
+		 td.setCity(city);
 		 return td;
 	    }
 	 @When(".+User searchs for band '(.+)' tour date")
-		public List<TourDates> searchTourDates (){
-			return tr.findByBandName("King Crimson");
+		public List<TourDates> searchTourDates (String bandName){
+			return tr.findByBandName(bandName);
 		}
 	 @Then(".+ TourDate '(.+)' is Found")
-	 public void tourDateFound() throws Throwable{
+	 public void tourDateFound(String city) throws Throwable{
 		 TourDates tds = new TourDates();
-			tds= tr.findByCity(initTourDate().getCity());
+			tds= tr.findByCity(initTourDate(city).getCity());
 			boolean loop = false ;
 			int i = 0 ;
 			while(!false){
-			assertThat(tds.getDate(), equalTo(searchTourDates().get(i).getDate()));
+			assertThat(tds.getDate(), equalTo(searchTourDates(city).get(i).getDate()));
 			i++;
 			}
 	 }
 	
 	 
-	 @Given("^Album with name Watershed issued in (\\d+)$")
+	@Given("^Album with name '(.+)' issued in (\\d+)$")
 	 public void album_with_name_Watershed_issued_in(int arg1) throws Throwable {
 	     // Write code here that turns the phrase above into concrete actions
 	        album = new Album("Watershed", "2008");
@@ -169,71 +169,71 @@ public class StepDefinitionBand {
 
 	 }
 
-	 @When("^User search for Band Opeth$")
+	 @When("^User search for Band '(.+)'$")
 	 public List<Album> user_search_for_Band_Opeth() throws Throwable {
 		 return al.findByBandName("Opeth");
 		 }
 
-	 @Then("^Album Still life Should be in Opeth album list$")
-	 public void album_Still_life_Should_be_in_Opeth_album_list() throws Throwable {
-			Album album = new Album();
-			album= al.findByAlbumName("Still life");
+	 @Then("^Album '(.+)' Should be in '(.+)' album list$")
+	 public void album_Still_life_Should_be_in_Opeth_album_list(String album,String band) throws Throwable {
+			Album albumm = new Album();
+			albumm= al.findByAlbumName(album);
 			boolean loop = false ;
 			int i = 0 ;
 			while(!false){
-			assertThat(album, equalTo(searchAlbum().get(i)));
+			assertThat(albumm, equalTo(searchAlbum(band).get(i)));
 			i++;
 			}
 	 }
 
-	 @Given("^Band with name Opeth that plays prog rock$")
-	 public void band_with_name_Opeth_that_plays_prog_rock() throws Throwable {
+	 @Given("^Band with name '(.+)' that plays '(.+)'$")
+	 public void band_with_name_Opeth_that_plays_prog_rock(String bandName,String genre) throws Throwable {
 	     // Write code here that turns the phrase above into concrete actions
 		 band = new Band();
-		 band.setBandName("Opeth");
-		 	band.setGenre("prog rock");
+		 band.setBandName(bandName);
+		 	band.setGenre(genre);
 	 }
 
-	 @When("^User searchs for Artist with name Mikael$")
-	 public Artists user_searchs_for_Artist_with_name_Mikael() throws Throwable {
+	 @When("^User searchs for Artist with name '(.+)'$")
+	 public Artists user_searchs_for_Artist_with_name_Mikael(String name) throws Throwable {
 	     // Write code here that turns the phrase above into concrete actions
-		return ar.findByLastName("Mikael");
+		return ar.findByLastName(name);
 
 	 }
 
-	 @Then("^Artist should be found with name Mikael that plays for Opeth$")
-	 public Boolean artist_should_be_found_with_name_Mikael_that_plays_for_Opeth() throws Throwable {
+	 @Then("^Artist should be found with name '(.+)' that plays for '(.+)'$")
+	 public Boolean artist_should_be_found_with_name_Mikael_that_plays_for_Opeth(String name, String bandName) throws Throwable {
 
 		 Band b = new Band();
-			b = pr.findByBandName(band.getBandName());
+			b = pr.findByBandName(bandName);
 			boolean loop = false ;
 			int i = 0 ;
 			while(!false){
-			assertThat(b.getArtists().get(i), equalTo(searchArtist()));
+			assertThat(b.getArtists().get(i), equalTo(searchArtist(name)));
 			i++;
 			}	     
 	 }
 
-	 @Given("^Tour date in City Montreal$")
-	 public TourDates tour_date_in_City_Montreal() throws Throwable {
+	 @Given("^Tour date in City '(.+)'$")
+	 public TourDates tour_date_in_City_Montreal(String city) throws Throwable {
 		 TourDates td = new TourDates();
-		  td.setCity("Montreal");
+		  td.setCity(city);
 		  return td ;
 	 }
 
-	 @When("^User searchs for band King Crimson tour date$")
-	 public List<TourDates> user_searchs_for_band_King_Crimson_tour_date() throws Throwable {
-	     return tr.findByBandName("King Crimson");
+	 @When("^User searchs for band '(.+)' tour date$")
+	 public List<TourDates> user_searchs_for_band_King_Crimson_tour_date(String bandName) throws Throwable {
+	     return tr.findByBandName(bandName);
 	 }
 
-	 @Then("^TourDate (\\d+)/(\\d+)/(\\d+) is Found$")
-	 public boolean tourdate_is_Found(int arg1, int arg2, int arg3) throws Throwable {
+	 @Then("^TourDate (\\d+)/(\\d+)/(\\d+) in city '(.+)' is Found$")
+	 public boolean tourdate_is_Found(int arg1, int arg2, int arg3,String city) throws Throwable {
 	     TourDates tds = new TourDates();
-			tds= tr.findByCity(initTourDate().getCity());
+			tds= tr.findByCity(city);
 			boolean loop = false ;
 			int i = 0 ;
 			while(!false){
-			assertThat(tds.getDate(), equalTo(searchTourDates().get(i).getDate()));
+			assertThat(tds.getDate(), equalTo(searchTourDates(city).get(i).getDate()));
 			i++;
 			}
 	 }
