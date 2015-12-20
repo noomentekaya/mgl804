@@ -26,91 +26,104 @@ public class Application implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		//Answer a = new Answer("Opeth", true);
-		
-		//Answer a1 = new Answer("Katatonia", false);
-		//Answer a2 = new Answer("In flames", false);
-		
-		
-		Answer a = new Answer (aa -> {
-			aa.answer("Opeth");
-			aa.correct(true);
+		Scanner scanner = new Scanner(System.in);
+		int choice ;
+
+		Category category = new Category(cc ->{
+			cc.category("old progressive rock");
+			cc.choice(1);
+			cc.addQuestion(new Question(qq ->{
+				qq.text("What Year was released in The court of the crimson king");
+				qq.addAnswer(new Answer(aa->{
+					aa.answer("1969");
+					aa.correct(true);
+					
+				}));
+				
+				qq.addAnswer(new Answer(aa->{
+					aa.answer("1970");
+					aa.correct(false);
+				}));
+				qq.addAnswer(new Answer(aa->{
+					aa.answer("1971");
+					aa.correct(false);
+				}));
+				qq.category(cc.getCategory()); 
+
+				
+			}));
+			
 		});
-		Answer a1 = new Answer (aa -> {
-			aa.answer("Katatonia");
-			aa.correct(false);
+		Category category2 = new Category(cc ->{
+			cc.category("Progressive metal");
+			cc.choice(2);
+			cc.addQuestion(new Question(qq ->{
+				qq.text("What Year was released Paradise lost of Symphony X");
+				qq.addAnswer(new Answer(aa->{
+					aa.text("2007");
+					aa.correct(true);
+				}));
+				qq.addAnswer(new Answer(aa->{
+					aa.text("2008");
+					aa.correct(false);
+				}));
+				qq.addAnswer(new Answer(aa->{
+					aa.text("2008");
+					aa.correct(false);
+				}));
+				qq.category(cc.getCategory()); 
+
+				
+			}));
 		});
-		Answer a2 = new Answer (aa -> {
-			aa.answer("inflames");
-			aa.correct(false);
+		Category category3 = new Category(cc ->{
+			cc.category("Modern Progressive rock");
+			cc.choice(3);
+			cc.addQuestion(new Question(qq ->{
+				qq.text("Who is the former procupine tree drummer");
+				qq.addAnswer(new Answer(aa->{
+					aa.text("Gavin Harrison");
+					aa.correct(true);
+				}));
+				qq.addAnswer(new Answer(aa->{
+					aa.text("Mike Portnoy");
+					aa.correct(false);
+				}));
+				qq.addAnswer(new Answer(aa->{
+					aa.text("Martin Axenrot");
+					aa.correct(false);
+				}));
+				qq.category(cc.getCategory()); 
+
+				
+			}));
 		});
-	
-		//Question q = new Question(answers, "Band who release Still Life in 1999");
-		List<Answer> answers = new ArrayList<>();
 		
-		
-		
-		answers.add(a);
-		answers.add(a1);
-		answers.add(a2);
-	
-	//	Question qq = new Question(new ArrayList<>(), "ss");
-		Question q = new Question(qs -> {
-			qs.text("Who released Still life in 1999");
-			qs.answers(answers);
-		});
-		questionrepository.save(q);
-		
-		a.text(q.text);
-		a1.text(q.text);
-		a2.text(q.text);
-		answerrepo.save(a);
-		answerrepo.save(a1);
-		answerrepo.save(a2);
-		List<Question> questions = new ArrayList<>();
-		questions.add(q);
-		Category c = new Category(cat->{
-		cat.category("Metal");
-		cat.questions(questions);
-		});
-		catrepo.save(c);
+
+		List<Category> cat = new ArrayList<>();
+		cat.add(category);
+		cat.add(category2);
+		cat.add(category3);
 		DslQuizz dsl = new DslQuizz();
+		System.out.println("Categories :");
+		int ordre = 0;
+		for (Category c : cat ){
+			System.out.println(ordre+" - "+c.getCategory());
+		}
 		
-		for(Question question : catrepo.findByCategory("Metal")){
-		for(Answer answer: answerrepo.findByText(question.text)){
-			System.out.println(answer);
-			if (answer.isCorrect()){
-				dsl = new DslQuizz(dslq ->{
-					dslq.question(question);
-
-					dslq.Right(answer);});
-				
-			}else
-			{
-				dsl = new DslQuizz(dslq ->{
-					dslq.question(question);
-
-					dslq.Wrong(answer);});
-				
+		choice = scanner.nextInt();
+		int i = 0 ;
+		while (i<=cat.size()){
+				dsl.runQuiz(cat.get(i));
+				break;
+			
+			
 			}
-//			dsl = new DslQuizz(dslq ->{
-//				dslq.question(question);
-//				if(answer.isCorrect()){
-//
-//				dslq.rightAnswer(answer);}
-//				else{
-//					dslq.wrongAnswer(answer);}
-//						
-//			});
+			
+		}
+		
 				
-			
-
-			
-		}
-
-		}
-		dsl.runQuiz();
 		
 	}
 
-}
+

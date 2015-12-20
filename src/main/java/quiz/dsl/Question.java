@@ -1,5 +1,6 @@
 package quiz.dsl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,7 +9,7 @@ import org.springframework.data.annotation.Id;
 public class Question {
 	@Id
 	private String id ;
-	List<Answer> answers;
+	List<Answer> answers = new ArrayList<>();
 	String text;
 	String category;
 	public Question (QuestionBuilder qb){
@@ -45,15 +46,16 @@ public class Question {
 	protected void addAnswer(Answer answer){
 		answers.add(answer);
 	}
-	protected void category(String category){
+	public void category(String category){
 		this.category= category;
 	}
+	
 	//public List<Question> question()
 	protected int ask(){
 		System.out.println(text);
 		int i =0;
 		for(Answer a : answers){
-			System.out.println(i++ +" "+a.getAnswer());
+			System.out.println(i++ +" - "+a.getAnswer());
 		}
 		System.out.println("enter answer :");
 		Scanner scanner = new Scanner(System.in);

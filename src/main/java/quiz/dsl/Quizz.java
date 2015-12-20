@@ -44,12 +44,14 @@ public class Quizz {
 		return questions.get(questions.size()-1);
 			
 	}
-	public void runQuiz (){
+	public void runQuiz (Category c){
 		int count = 0;
 		
-		for (Question q : questions){
+		for (Question q : c.getQuestions()){
+			if(q.category==c.getCategory()){
 			count = count+q.ask();
+			}
 		}
-		System.out.println("you have got "+count+" out of "+ questions.size()+" questions");
+		System.out.println("you have got "+count+" out of "+ c.getQuestions().size()+" questions");
 	}
 }

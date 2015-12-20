@@ -26,8 +26,8 @@ public class DslQuizz {
 	public void Wrong(Answer a ){
 		quizz.lastQuestion().addAnswer(a);
 	}
-	public void runQuiz(){
-		quizz.runQuiz();
+	public void runQuiz(Category c){
+		quizz.runQuiz(c);
 	}
 
 	
