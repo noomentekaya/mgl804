@@ -13,12 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 
-	@Autowired
-	private QuestionRepo questionrepository;
-	@Autowired
-	private AnswerRepo answerrepo;
-	@Autowired
-	private CategoryRepo catrepo ;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
@@ -36,10 +31,8 @@ public class Application implements CommandLineRunner {
 				qq.text("What Year was released in The court of the crimson king");
 				qq.addAnswer(new Answer(aa->{
 					aa.answer("1969");
-					aa.correct(true);
-					
+					aa.correct(true);		
 				}));
-				
 				qq.addAnswer(new Answer(aa->{
 					aa.answer("1970");
 					aa.correct(false);
@@ -106,9 +99,10 @@ public class Application implements CommandLineRunner {
 		cat.add(category3);
 		DslQuizz dsl = new DslQuizz();
 		System.out.println("Categories :");
-		int ordre = 0;
+		int ordre = 1;
 		for (Category c : cat ){
 			System.out.println(ordre+" - "+c.getCategory());
+			ordre++;
 		}
 		
 		choice = scanner.nextInt();

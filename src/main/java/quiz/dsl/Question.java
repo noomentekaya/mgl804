@@ -53,7 +53,7 @@ public class Question {
 	//public List<Question> question()
 	protected int ask(){
 		System.out.println(text);
-		int i =0;
+		int i =1;
 		for(Answer a : answers){
 			System.out.println(i++ +" - "+a.getAnswer());
 		}

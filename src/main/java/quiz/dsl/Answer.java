@@ -8,6 +8,8 @@ private String id ;
  public String answer ;
  public boolean correct ;
  public String text;
+ 
+ 
  public Answer(AnswerBuilder ab){
 	 ab.build(this);
  }
